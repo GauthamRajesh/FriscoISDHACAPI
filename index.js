@@ -20,5 +20,5 @@ app.get("/students/gpa", async (req, res) => {
         console.log(error);
     })
     
-    res.send(gpas);
+    return res.send(gpas);
 })
