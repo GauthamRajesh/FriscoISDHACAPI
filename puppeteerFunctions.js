@@ -25,15 +25,20 @@ exports.getGPA = async function(username, password) {
 
     const { page, browser } = await startBrowser(username, password);
 
-    await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx").catch((error) => console.log(error));
-        let elm = await page.$("#plnMain_rpTranscriptGroup_lblGPACum1").catch((error) => console.log(error));
-        weightedGPA = await (await elm.getProperty('textContent').catch((error) => console.log(error))).jsonValue().catch((error) => console.log(error));
+    try {
+        await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx")
+        let elm = await page.$("#plnMain_rpTranscriptGroup_lblGPACum1")
+        weightedGPA = await (await elm.getProperty('textContent')).jsonValue()
         
-        elm = await page.$("#plnMain_rpTranscriptGroup_lblGPACum2").catch((error) => console.log(error));
-        unweightedGPA = await (await elm.getProperty('textContent').catch((error) => console.log(error))).jsonValue().catch((error) => console.log(error));
+        elm = await page.$("#plnMain_rpTranscriptGroup_lblGPACum2")
+        unweightedGPA = await (await elm.getProperty('textContent')).jsonValue()
+    } catch(e) {
+        console.log(e);
+    } finally {
+        await browser.close()
 
-    await browser.close().catch((error) => console.log(error));
-
+    }
+    
     return {
         weightedGPA: weightedGPA,
         unweightedGPA: unweightedGPA
