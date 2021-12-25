@@ -16,7 +16,9 @@ app.get("/", (req, res) => {
 app.get("/students/gpa", async (req, res) => {
     const { username, password } = req.query;
     
-    const gpas = await getGPA(username, password)
-
+    const gpas = await getGPA(username, password).catch((error) => {
+        console.log(error);
+    })
+    
     res.send(gpas);
 })

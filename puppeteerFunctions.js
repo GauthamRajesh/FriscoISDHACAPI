@@ -37,5 +37,5 @@ exports.getGPA = async function(username, password) {
     return {
         weightedGPA: weightedGPA,
         unweightedGPA: unweightedGPA
-    }
+    };
 }
