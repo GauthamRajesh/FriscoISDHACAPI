@@ -4,7 +4,7 @@ async function startBrowser(username, password) {
     const browser = await puppeteer.launch({ 
         headless: true,
         defaultViewport: null,
-        args: ['--start-maximized'] 
+        args: ['--no-sandbox'] 
   });
 
   const page = await browser.newPage();
