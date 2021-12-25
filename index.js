@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-const PORT = process.env.PORT || 22;
+const PORT = process.env.PORT || 80;
 
 const { getGPA } = require("./puppeteerFunctions");
 
