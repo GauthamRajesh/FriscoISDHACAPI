@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 async function startBrowser(username, password) {
     const browser = await puppeteer.launch({ 
-        headless: false,
+        headless: true,
         defaultViewport: null,
         args: ['--no-sandbox', '--disable-setuid-sandbox'] 
   });
@@ -98,21 +98,24 @@ exports.getClasses = async function(username, password) {
 }
 
 exports.getClassesDetails = async function(username, password) {
-    let classes = [];
-
-   const { page, browser } = await startBrowser(username, password);
+   var { page, browser } = await startBrowser(username, password);
    await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx")
 
-  const test =  await page.evaluate(() => {
-        const arr = Array.from(document.querySelectorAll('.AssignmentClass .sg-content-grid>.sg-asp-table tbody'), element => {
-           return element
-        })
+   const classes = await page.evaluate(() => {
+    return Array.from(document.querySelectorAll('.AssignmentClass .sg-content-grid>.sg-asp-table tbody'), element => {
+        const className = element.parentElement.parentElement.parentElement.children[0].children[1].innerText.trim();
+        const classGrade = element.parentElement.parentElement.parentElement.children[0].children[3].innerText.trim().replace("Student Grades ", "").replace("%", "");
 
-       const data = []
+        const course = {
+            className,
+            classGrade,
+            assignments: [
+
+            ]
+        }
        
-       arr.forEach((tbody) => {
-            Array.from(tbody.children).forEach((tr) => {
-                data.push( {
+        Array.from(element.children).forEach((tr) => {
+                course.assignments.push( {
                     dateDue : tr.children[0].innerText,
                     dateAssigned: tr.children[1].innerText,
                     assignment: tr.children[2].innerText,
@@ -122,10 +125,13 @@ exports.getClassesDetails = async function(username, password) {
                 }
                 )
             })
-        })
 
-        return data
+        course.assignments.shift()
+
+        return course
+     })
    })
 
-   console.log(test);
+   return classes
+   
 }

@@ -44,7 +44,7 @@ app.get("/students/currentclasses", async (req, res) => {
 app.get("/students/currentclasses/details", async (req, res) => {
     const { username, password } = req.query;
 
-    getClassesDetails(username, password)
+    const classes = await getClassesDetails(username, password)
 
-    res.end();
+    res.send(classes);
 })
