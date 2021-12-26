@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 async function startBrowser(username, password) {
     const browser = await puppeteer.launch({ 
-        headless: true,
+        headless: false,
         defaultViewport: null,
         args: ['--no-sandbox', '--disable-setuid-sandbox'] 
   });
@@ -82,7 +82,6 @@ exports.getClasses = async function(username, password) {
     const classes = [];
 
    const { page, browser } = await startBrowser(username, password);
-
    await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx")
    
    const classNames = await page.evaluate(() => Array.from(document.querySelectorAll('a.sg-header-heading'), element => element.textContent.trim()));
@@ -96,4 +95,37 @@ exports.getClasses = async function(username, password) {
    })
 
    return classes
+}
+
+exports.getClassesDetails = async function(username, password) {
+    let classes = [];
+
+   const { page, browser } = await startBrowser(username, password);
+   await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx")
+
+  const test =  await page.evaluate(() => {
+        const arr = Array.from(document.querySelectorAll('.AssignmentClass .sg-content-grid>.sg-asp-table tbody'), element => {
+           return element
+        })
+
+       const data = []
+       
+       arr.forEach((tbody) => {
+            Array.from(tbody.children).forEach((tr) => {
+                data.push( {
+                    dateDue : tr.children[0].innerText,
+                    dateAssigned: tr.children[1].innerText,
+                    assignment: tr.children[2].innerText,
+                    category: tr.children[3].innerText,
+                    score: tr.children[4].innerText,
+                    totalPoints: tr.children[5].innerText
+                }
+                )
+            })
+        })
+
+        return data
+   })
+
+   console.log(test);
 }

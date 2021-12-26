@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
-const { getGPA, getInfo, getClasses } = require("./puppeteerFunctions");
+const { getGPA, getInfo, getClasses, getClassesDetails } = require("./puppeteerFunctions");
 
 app.listen(PORT, (req, res) => {
     console.log(`Express app listening on port ${PORT}`);
@@ -39,4 +39,12 @@ app.get("/students/currentclasses", async (req, res) => {
     const classes = await getClasses(username, password);
 
     res.send(classes);
+})
+
+app.get("/students/currentclasses/details", async (req, res) => {
+    const { username, password } = req.query;
+
+    getClassesDetails(username, password)
+
+    res.end();
 })
