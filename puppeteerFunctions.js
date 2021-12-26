@@ -77,3 +77,23 @@ exports.getInfo = async function(username, password) {
         studentGrade
     }
 }
+
+exports.getClasses = async function(username, password) {
+    const classes = [];
+
+   const { page, browser } = await startBrowser(username, password);
+
+   await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx")
+   
+   const classNames = await page.evaluate(() => Array.from(document.querySelectorAll('a.sg-header-heading'), element => element.textContent.trim()));
+   const classGrades = await page.evaluate(() => Array.from(document.querySelectorAll('.sg-header-heading.sg-right'), element => Number(element.textContent.trim().replace("Student Grades ", "").replace("%", ""))));
+
+   classNames.forEach((elm) => {
+       let name = elm
+        let grade = classGrades[classNames.indexOf(elm)]
+        
+        classes.push({ name, grade })
+   })
+
+   return classes
+}
