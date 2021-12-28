@@ -19,7 +19,7 @@ async function startBrowser(username, password) {
   return { page, browser } 
 }
 
-exports.getGPA = async function(username, password) {
+async function getGPA(username, password) {
     let weightedGPA;
     let unweightedGPA;
 
@@ -41,9 +41,10 @@ exports.getGPA = async function(username, password) {
         unweightedGPA: unweightedGPA
     };
 }
+exports.getGPA = getGPA
 
-exports.getInfo = async function(username, password) {
-   let studentID, studentName, studentBirthDate, studentCounselor, studentBuilding, studentGrade;
+async function getInfo(username, password) {
+    let studentID, studentName, studentBirthDate, studentCounselor, studentBuilding, studentGrade;
 
    const { page, browser } = await startBrowser(username, password);
 
@@ -77,25 +78,27 @@ exports.getInfo = async function(username, password) {
         studentGrade
     }
 }
+exports.getInfo = getInfo
 
-exports.getClasses = async function(username, password) {
+async function getClasses(username, password) {
     const classes = [];
 
-   const { page, browser } = await startBrowser(username, password);
-   await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx")
-   
-   const classNames = await page.evaluate(() => Array.from(document.querySelectorAll('a.sg-header-heading'), element => element.textContent.trim()));
-   const classGrades = await page.evaluate(() => Array.from(document.querySelectorAll('.sg-header-heading.sg-right'), element => Number(element.textContent.trim().replace("Student Grades ", "").replace("%", ""))));
-
-   classNames.forEach((elm) => {
-       let name = elm
-        let grade = classGrades[classNames.indexOf(elm)]
-        
-        classes.push({ name, grade })
-   })
-
-   return classes
+    const { page, browser } = await startBrowser(username, password);
+    await page.goto("https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx")
+    
+    const classNames = await page.evaluate(() => Array.from(document.querySelectorAll('a.sg-header-heading'), element => element.textContent.trim()));
+    const classGrades = await page.evaluate(() => Array.from(document.querySelectorAll('.sg-header-heading.sg-right'), element => Number(element.textContent.trim().replace("Student Grades ", "").replace("%", ""))));
+ 
+    classNames.forEach((elm) => {
+        let name = elm
+         let grade = classGrades[classNames.indexOf(elm)]
+         
+         classes.push({ name, grade })
+    })
+ 
+    return classes
 }
+exports.getClasses = getClasses
 
 exports.getClassesDetails = async function(username, password) {
    var { page, browser } = await startBrowser(username, password);
@@ -134,4 +137,14 @@ exports.getClassesDetails = async function(username, password) {
 
    return classes
    
+}
+
+exports.getPredictedGPA = async function(username, password) {
+    let studentGrade, currentGPA, currentClasses;
+
+    await Promise.all([getInfo(username, password), getGPA(username, password), getClasses(username, password)]).then((res) => {
+        studentGrade = res[0].studentGrade;
+        currentGPA = res[1]
+        currentClasses = res[2];
+    })
 }
