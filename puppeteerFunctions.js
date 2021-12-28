@@ -1,3 +1,6 @@
+const doubleWeighted = ['gt', 'physics c', 'veterinary', 'equipment', 'architectural design 2', 'interior design 2', 'animation', 'sports broadcasting', 'graphic Design', 'child guidance',
+'education and training', 'practicum in govern', 'clinical', 'electrocardiography', 'medical technician', 'hospitality', 'culinary', 'ap computer', 'sports management']
+
 const puppeteer = require('puppeteer');
 
 async function startBrowser(username, password) {
@@ -22,7 +25,6 @@ async function startBrowser(username, password) {
 async function getGPA(username, password) {
     let weightedGPA;
     let unweightedGPA;
-
     const { page, browser } = await startBrowser(username, password);
 
     
@@ -90,12 +92,33 @@ async function getClasses(username, password) {
     const classGrades = await page.evaluate(() => Array.from(document.querySelectorAll('.sg-header-heading.sg-right'), element => Number(element.textContent.trim().replace("Student Grades ", "").replace("%", ""))));
  
     classNames.forEach((elm) => {
+        let weight;
+        let credits;
         let name = elm
+
+        if(name.toLowerCase().includes("advanced") || name.toLowerCase().includes("ap")) {
+            weight = 6; 
+        } else if(name.toLowerCase().includes("ism") || (name.toLowerCase().includes("academic dec"))) {
+            weight = 5.5
+        } else {
+            weight = 5
+        }
+
+        doubleWeighted.forEach((elm) => {
+            if(name.toLowerCase().includes(elm)) {
+                credits = 2
+            } else {
+                credits = 1
+            }
+        })
+
          let grade = classGrades[classNames.indexOf(elm)]
          
-         classes.push({ name, grade })
+         classes.push({ name, grade, weight, credits })
     })
  
+    await browser.close()
+
     return classes
 }
 exports.getClasses = getClasses
@@ -134,17 +157,9 @@ exports.getClassesDetails = async function(username, password) {
         return course
      })
    })
+   
+   await browser.close()
 
    return classes
    
-}
-
-exports.getPredictedGPA = async function(username, password) {
-    let studentGrade, currentGPA, currentClasses;
-
-    await Promise.all([getInfo(username, password), getGPA(username, password), getClasses(username, password)]).then((res) => {
-        studentGrade = res[0].studentGrade;
-        currentGPA = res[1]
-        currentClasses = res[2];
-    })
 }
