@@ -163,3 +163,48 @@ exports.getClassesDetails = async function(username, password) {
    return classes
    
 }
+
+exports.getPredictedGPA = function(currentWeightedGPA, currentUnweightedGPA, currentClasses, studentGrade) {
+    const pastSemesters = ((studentGrade - 8) * 2) - 1;
+    let finalWeightedGPA, finalUnweightedGPA;
+
+    const weightedGPAList = [];
+    const unweightedGPAList = [];
+    let totalCredits = currentClasses.reduce(function(total, course) {
+        return total + course.credits
+    }, 0)
+   
+    currentClasses.forEach((course) => {
+        let weightedGPA, unweightedGPA;
+
+        if(course.grade < 70) {
+            weightedGPA = 0
+            unweightedGPA = 0
+        } else if(course.grade === 70) {
+            weightedGPA = 3
+            unweightedGPA = 2
+        } else {
+            weightedGPA = (
+                (course.weight - ((100 - course.grade)/10)) * course.credits)
+
+            unweightedGPA = ((4.0 - ((90 - course.grade)/10))
+                             * course.credits)
+            if(course.credits === 2  && unweightedGPA > 8) {
+                unweightedGPA = 8.0
+            } else if (unweightedGPA > 4) {
+                unweightedGPA = 4
+            }
+        }
+
+        weightedGPAList.push(weightedGPA)
+        unweightedGPAList.push(unweightedGPA)
+    })
+
+    finalWeightedGPA = weightedGPAList.reduce((total, num) => total + num, 0) / totalCredits
+    finalUnweightedGPA = unweightedGPAList.reduce((total, num) => total + num, 0) / totalCredits
+
+    finalWeightedGPA = (((currentWeightedGPA) * pastSemesters) + finalWeightedGPA) / (pastSemesters+1)
+    finalUnweightedGPA = (((currentUnweightedGPA) * pastSemesters) + finalUnweightedGPA) / (pastSemesters+1)  
+
+    return { finalWeightedGPA, finalUnweightedGPA }
+}

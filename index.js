@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
-const { getGPA, getInfo, getClasses, getClassesDetails } = require("./puppeteerFunctions");
+const { getGPA, getInfo, getClasses, getClassesDetails, getPredictedGPA } = require("./puppeteerFunctions");
 
 app.listen(PORT, (req, res) => {
     console.log(`Express app listening on port ${PORT}`);
@@ -48,3 +48,11 @@ app.get("/students/currentclasses/details", async (req, res) => {
 
     res.send(classes);
 });
+
+app.post("/students/predictedGPA", (req, res) => {
+    const { weightedGPA, unweightedGPA, currentClasses, studentGrade } = req.body;
+
+    const predictedGPAs = getPredictedGPA(weightedGPA, unweightedGPA, currentClasses, studentGrade)
+
+    res.send(predictedGPAs);
+})
