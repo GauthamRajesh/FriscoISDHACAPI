@@ -18,7 +18,13 @@ async function startBrowser(username, password) {
   await page.$eval('#login', el => el.click())
   await page.waitForNavigation();
 
-  return { page, browser } 
+  const url = page.url();
+  if(url === "https://hac.friscoisd.org/HomeAccess/Grades/Transcript") {
+    return { page, browser } 
+  }
+
+  await browser.close();
+  throw 'Login Error';
 }
 
 async function getGPA(username, password) {

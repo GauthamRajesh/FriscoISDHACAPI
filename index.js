@@ -40,7 +40,9 @@ app.get("/students/info", async (req, res) => {
 app.get("/students/currentclasses", async (req, res) => {
     const { username, password } = req.query;
 
-    const classes = await getClasses(username, password);
+    const classes = await getClasses(username, password).catch((error) => {
+        console.log(error);
+    })
 
     res.send(classes);
 })
@@ -48,7 +50,9 @@ app.get("/students/currentclasses", async (req, res) => {
 app.get("/students/currentclasses/details", async (req, res) => {
     const { username, password } = req.query;
 
-    const classes = await getClassesDetails(username, password)
+    const classes = await getClassesDetails(username, password).catch((error) => {
+        console.log(error);
+    })
 
     res.send(classes);
 });
