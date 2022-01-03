@@ -16,7 +16,6 @@ async function startBrowser(username, password) {
   await page.type('#LogOnDetails_UserName', username);
   await page.type('#LogOnDetails_Password', password)
   await page.$eval('#login', el => el.click())
-  
   await page.waitForNavigation();
 
   return { page, browser } 
