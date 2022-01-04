@@ -91,7 +91,7 @@ Body (JSON):
 Example Request (Axios):
 
 ```javascript
-  axios.post(`https://abs-level-agency-remote.trycloudflare.com/students/predictedGPA`, {
+  axios.post(`https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/predictedGPA`, {
     weightedGPA: 5.05,
     unweightedGPA: 3.88,
     studentGrade: 12,
@@ -149,7 +149,7 @@ Example Request (Axios):
 Example Request (cURL):
 ``` cURL
 curl -X POST \
-  'https://abs-level-agency-remote.trycloudflare.com/students/predictedGPA' \
+  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/predictedGPA' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)' \
   -H 'Content-Type: application/json' \
