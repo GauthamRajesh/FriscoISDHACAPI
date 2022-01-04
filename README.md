@@ -5,7 +5,7 @@ REST API to scrape student information from Frisco ISD's Home Access Center (HAC
 
 Hosted with Express.js on a Raspberry Pi through Cloudflare Argo tunnel
 
-Base API URL: https://abs-level-agency-remote.trycloudflare.com
+Base API URL: https://virtually-surplus-outcomes-entirely.trycloudflare.com
 
 
 Frisco ISD Real-time GPA Site:
