@@ -29,6 +29,9 @@ Technologies Used:
 
 ## API Reference
 
+Demo Username: "John"
+Demo Password: "Doe"
+
 #### Get a students HAC weighted & unweighted GPA
 
 ```http
