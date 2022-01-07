@@ -29,8 +29,9 @@ Technologies Used:
 
 ## API Reference
 
-Demo Username: "John"
-Demo Password: "Doe"
+**Demo Username: "John"**
+
+**Demo Password: "Doe"**
 
 #### Get a students HAC weighted & unweighted GPA
 
