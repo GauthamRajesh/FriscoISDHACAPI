@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 app.get("/students/gpa", async (req, res) => {
     const { username, password } = req.query;
 
-    if(username.toLowerCase() === "John" && password.toLowerCase() === "Doe") {
+    if(username.toLowerCase() === "john" && password.toLowerCase() === "doe") {
         return res.send(fakeData.currentGPAS);
     }
     
@@ -35,7 +35,7 @@ app.get("/students/gpa", async (req, res) => {
 app.get("/students/info", async (req, res) => {
     const { username, password } = req.query;
 
-    if(username.toLowerCase() === "John" && password.toLowerCase() === "Doe") {
+    if(username.toLowerCase() === "john" && password.toLowerCase() === "doe") {
         return res.send(fakeData.studentData);
     }
 
