@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const fakeData = require("./fakeData");
 
 const app = express();
 
@@ -19,6 +20,10 @@ app.get("/", (req, res) => {
 
 app.get("/students/gpa", async (req, res) => {
     const { username, password } = req.query;
+
+    if(username.toLowerCase() === "John" && password.toLowerCase() === "Doe") {
+        return res.send(fakeData.currentGPAS);
+    }
     
     const gpas = await getGPA(username, password).catch((error) => {
         console.log(error);
@@ -30,6 +35,10 @@ app.get("/students/gpa", async (req, res) => {
 app.get("/students/info", async (req, res) => {
     const { username, password } = req.query;
 
+    if(username.toLowerCase() === "John" && password.toLowerCase() === "Doe") {
+        return res.send(fakeData.studentData);
+    }
+
     const info = await getInfo(username, password).catch((error) => {
         console.log(error);
     })
@@ -39,6 +48,10 @@ app.get("/students/info", async (req, res) => {
 
 app.get("/students/currentclasses", async (req, res) => {
     const { username, password } = req.query;
+
+    if(username.toLowerCase() === "john" && password.toLowerCase() === "doe") {
+        return res.send(fakeData.currentClasses);
+    }
 
     const classes = await getClasses(username, password).catch((error) => {
         console.log(error);

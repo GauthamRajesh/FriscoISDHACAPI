@@ -1,0 +1,5 @@
+module.exports = {
+    studentData: {"studentID":"123456","studentName":"Jonh Doe","studentBirthDate":"12/24/2003","studentCounselor":"NELSON-MOON, LANNIS","studentBuilding":"Heritage High School","studentGrade":"12"},
+    currentClasses: [{"name":"CATE27600B - 3    Mobile App Programming S2@CTEC","grade":100,"weight":5,"credits":1},{"name":"CATE36400B - 1    Prac News Prod 2 S2","grade":91.48,"weight":5,"credits":2},{"name":"ELA14300B - 4    AP English Literature S2","grade":88.13,"weight":6,"credits":1},{"name":"MTH45300B - 1    AP Calculus AB S2","grade":79.40,"weight":6,"credits":1},{"name":"MTH45310B - 4    AP Statistics S2","grade":79.48,"weight":6,"credits":1},{"name":"SCI43300B - 1    AP Environmental Science S2","grade":94,"weight":6,"credits":1},{"name":"SST34300 - 4    AP Government","grade":93.24,"weight":6,"credits":0.5}],
+    currentGPAS: {"weightedGPA":"5.0500","unweightedGPA":"3.8800"},
+}
