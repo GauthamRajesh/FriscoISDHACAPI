@@ -82,7 +82,7 @@ Query Parameters:
 #### Get student's predicted GPAs
 
 ```http
-  POST /students/predictedGPA
+  POST /predictedGPA
 ```
 Body (JSON):
 | Parameter | Type     | Description                       |
@@ -95,7 +95,7 @@ Body (JSON):
 Example Request (Axios):
 
 ```javascript
-  axios.post(`https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/predictedGPA`, {
+  axios.post(`https://virtually-surplus-outcomes-entirely.trycloudflare.com/predictedGPA`, {
     weightedGPA: 5.05,
     unweightedGPA: 3.88,
     studentGrade: 12,
@@ -153,7 +153,7 @@ Example Request (Axios):
 Example Request (cURL):
 ``` cURL
 curl -X POST \
-  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/predictedGPA' \
+  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/predictedGPA' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)' \
   -H 'Content-Type: application/json' \
