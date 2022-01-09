@@ -207,6 +207,14 @@ curl -X POST \
 ]
 }'
 ```
+
+Response
+```
+{
+  "finalWeightedGPA": "5.018267857142857",
+  "finalUnweightedGPA": "3.8539464285714287"
+}
+```
 ## FAQ
 
 #### How does the API pull information from HAC
