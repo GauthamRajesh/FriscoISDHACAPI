@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.all("/students/*", (req, res, next) => {
+app.use("/students/*", (req, res, next) => {
     const { username, password } = req.query;
 
     if(username.toLowerCase() === "john" && password.toLowerCase() === "doe") {
