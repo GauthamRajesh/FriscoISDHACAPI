@@ -40,7 +40,6 @@ async function getGPA(username, password) {
         elm = await page.$("#plnMain_rpTranscriptGroup_lblGPACum2")
         unweightedGPA = await (await elm.getProperty('textContent')).jsonValue()
     
-    
     await browser.close()
 
     return {
