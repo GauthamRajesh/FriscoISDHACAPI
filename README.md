@@ -35,6 +35,13 @@ Technologies Used:
 
 Note: Make sure to pass username and password as query strings for GET routes
 
+Routes:
+- GET student GPAs
+- GET student information
+- GET student class data
+- GET student class data with assignment details
+- POST get student predicted GPAs
+
 <br>
 
 #### Get a students HAC weighted & unweighted GPA
