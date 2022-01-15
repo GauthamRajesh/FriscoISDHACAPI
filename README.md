@@ -7,7 +7,7 @@ Hosted with Express.js on a Raspberry Pi through Cloudflare Argo tunnel
 
 ----------
 
-Base API URL: https://virtually-surplus-outcomes-entirely.trycloudflare.com
+Base API URL: https://private-cornwall-affairs-landscape.trycloudflare.com
 
 
 Frisco ISD Real-time GPA Site:
@@ -57,7 +57,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/gpa?username=john&password=doe").then((res) => {
+axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/gpa?username=john&password=doe").then((res) => {
     console.log(res.data); //Make sure to denote what data you want from the response
 }).catch((error) => {
     console.log(error);
@@ -66,7 +66,7 @@ axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/student
 cURL:
 ``` cURL
 curl -X GET \
-  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/gpa?username=john&password=doe' \
+  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/gpa?username=john&password=doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -96,7 +96,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/info?username=john&password=doe").then((res) => {
+axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/info?username=john&password=doe").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -105,7 +105,7 @@ axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/student
 cURL:
 ``` cURL
 curl -X GET \
-  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/info?username=john&password=doe' \
+  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/info?username=john&password=doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -139,7 +139,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/currentclasses?username=john&password=doe").then((res) => {
+axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses?username=john&password=doe").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -148,7 +148,7 @@ axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/student
 
 ``` cURL
 curl -X GET \
-  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/currentclasses?username=john&password=doe' \
+  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses?username=john&password=doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -218,7 +218,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/currentclasses/details?username=john&password=doe").then((res) => {
+axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses/details?username=john&password=doe").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -227,7 +227,7 @@ axios.get("https://virtually-surplus-outcomes-entirely.trycloudflare.com/student
 cURL:
 ``` cURL
 curl -X GET \
-  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/students/currentclasses/details?username=john&password=doe' \
+  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses/details?username=john&password=doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -474,7 +474,7 @@ Body (JSON): *Route will accept only JSON data in the body
 Example Request (Axios):
 
 ```javascript
-  axios.post(`https://virtually-surplus-outcomes-entirely.trycloudflare.com/predictedGPA`, {
+  axios.post(`https://private-cornwall-affairs-landscape.trycloudflare.com/predictedGPA`, {
     weightedGPA: 5.05,
     unweightedGPA: 3.88,
     studentGrade: 12,
