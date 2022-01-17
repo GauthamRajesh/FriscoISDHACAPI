@@ -3,6 +3,11 @@ from bs4 import BeautifulSoup
 
 LOGIN_URL = "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
 TRANSCRIPT_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx"
+REGISTRATION_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Registration.aspx"
+CLASSES_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx"
+
+doubleWeighted = ['gt', 'physics c', 'veterinary', 'equipment', 'architectural design 2', 'interior design 2', 'animation', 'sports broadcasting', 'graphic Design', 'child guidance',
+'education and training', 'practicum in govern', 'clinical', 'electrocardiography', 'medical technician', 'hospitality', 'culinary', 'ap computer', 'sports management']
 
 # Create a BS4 object to parse the HTML string
 def createBS4Parser(content):
@@ -40,22 +45,29 @@ def createRequestPayload(username, password, requestVerificationToken):
         "LogOnDetails.Password" : password
     }
 
-#Get current student GPAs from their transcript
-def getGPAS(username, password):
+#Return the page of the final location
+def getPage(username, password, pageURL):
     (requestVerificationToken, session_requests) = getRequestVerificationToken()
 
     requestHeaders = createRequestHeaders(requestVerificationToken)
     requestPayload = createRequestPayload(username, password, requestVerificationToken)
 
     #Get through the login screen
-    transcriptDOM = session_requests.post(
+    pageDOM = session_requests.post(
         LOGIN_URL,
         data=requestPayload,
         headers=requestHeaders
     )
 
-    #Rewrote to the transcript .aspx page
-    transcriptDOM = session_requests.get(TRANSCRIPT_URL)
+    #Reroute to the final page
+    pageDOM = session_requests.get(pageURL)
+
+    return pageDOM
+
+
+#Get current student GPAs from their transcript
+def getGPAS(username, password):
+    transcriptDOM = getPage(username, password, TRANSCRIPT_URL)
     
     parser = createBS4Parser(transcriptDOM.text)
     weightedGPA = parser.find(id="plnMain_rpTranscriptGroup_lblGPACum1").text
@@ -65,3 +77,61 @@ def getGPAS(username, password):
         "weightedGPA": weightedGPA,
         "unweightedGPA": unWeightedGPA
     }
+
+def getInfo(username, password):
+    registrationDOM = getPage(username, password, REGISTRATION_URL)
+
+    parser = createBS4Parser(registrationDOM.text)
+    studentID = parser.find(id="plnMain_lblRegStudentID").text
+    studentName = parser.find(id="plnMain_lblRegStudentName").text
+    studentBirthDate = parser.find(id="plnMain_lblBirthDate").text
+    studentCounselor = parser.find(id="plnMain_lblCounselor").text
+    studentBuilding = parser.find(id="plnMain_lblBuildingName").text
+    studentGrade = parser.find(id="plnMain_lblGrade").text
+
+    return {
+        "name" : studentName,
+        "id" : studentID,
+        "grade" : studentGrade, 
+        "birthdate" : studentBirthDate,
+        "campus" : studentBuilding,
+        "counselor" : studentCounselor
+    }
+
+def getCurrentClasses(username, password):
+    courses = []
+   
+    classesDOM = getPage(username, password, CLASSES_URL)
+
+    parser = createBS4Parser(classesDOM.text)
+    currentClasses = parser.find_all("div", "sg-header sg-header-square")
+
+    for course in currentClasses:
+        parser = createBS4Parser(f"<html><body>{course}</body></html>")
+        className = parser.find("a", "sg-header-heading").text.strip()
+        classGrade = parser.find("span", "sg-header-heading sg-right").text.strip().replace("Student Grades ", "").replace("%", "")
+        classWeight = ""
+        classCredits = ""
+
+        if("advanced" in className.lower() or "ap" in className.lower()):
+            classWeight = "6"
+        elif("ism" in className.lower() or "academic dec" in className.lower()):
+            classWeight = "5.5"
+        else:
+            classWeight = "5"
+
+        for name in doubleWeighted:
+            if(name in className.lower()):
+                classCredits = "2"
+            else:
+                classCredits = "1"
+        
+
+        courses.append({
+            "name": className,
+            "grade": classGrade,
+            "weight": classWeight,
+            "credits": classCredits
+        })
+
+    return courses
