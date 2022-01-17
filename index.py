@@ -1,15 +1,16 @@
-from email import parser
-from urllib import request
-from wsgiref import headers
 import requests
 from bs4 import BeautifulSoup
 
 LOGIN_URL = "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
 TRANSCRIPT_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx"
 
+# Create a BS4 object to parse the HTML string
 def createBS4Parser(content):
     return BeautifulSoup(content, "html.parser")
 
+#Extract the requestVerificationToken needed in the headers
+#Return a tuple containing the token and the request session
+#Note: The requestVerificationToken is linked to the request session so any function using the token must also use the request session
 def getRequestVerificationToken():
     session_requests = requests.session()
     result = session_requests.get(LOGIN_URL)
@@ -38,19 +39,22 @@ def createRequestPayload(username, password, requestVerificationToken):
         "tempPW" : "",
         "LogOnDetails.Password" : password
     }
-    
+
+#Get current student GPAs from their transcript
 def getGPAS(username, password):
     (requestVerificationToken, session_requests) = getRequestVerificationToken()
 
     requestHeaders = createRequestHeaders(requestVerificationToken)
     requestPayload = createRequestPayload(username, password, requestVerificationToken)
 
+    #Get through the login screen
     transcriptDOM = session_requests.post(
         LOGIN_URL,
         data=requestPayload,
         headers=requestHeaders
     )
 
+    #Rewrote to the transcript .aspx page
     transcriptDOM = session_requests.get(TRANSCRIPT_URL)
     
     parser = createBS4Parser(transcriptDOM.text)
