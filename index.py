@@ -104,34 +104,72 @@ def getCurrentClasses(username, password):
     classesDOM = getPage(username, password, CLASSES_URL)
 
     parser = createBS4Parser(classesDOM.text)
-    currentClasses = parser.find_all("div", "sg-header sg-header-square")
+    classContainer = parser.find_all("div", "AssignmentClass")
 
-    for course in currentClasses:
-        parser = createBS4Parser(f"<html><body>{course}</body></html>")
-        className = parser.find("a", "sg-header-heading").text.strip()
-        classGrade = parser.find("span", "sg-header-heading sg-right").text.strip().replace("Student Grades ", "").replace("%", "")
+    for container in classContainer:
+        parser = createBS4Parser(f"<html><body>{container}</body></html>")
+        headerContainer = parser.find_all("div", "sg-header sg-header-square")
+        assignementsContainer = parser.find_all("div", "sg-content-grid")
+
+        className = ""
+        classGrade = ""
         classWeight = ""
         classCredits = ""
+        assignments = []
 
-        if("advanced" in className.lower() or "ap" in className.lower()):
-            classWeight = "6"
-        elif("ism" in className.lower() or "academic dec" in className.lower()):
-            classWeight = "5.5"
-        else:
-            classWeight = "5"
+        for hc in headerContainer:
+            parser = createBS4Parser(f"<html><body>{hc}</body></html>")
+            className = parser.find("a", "sg-header-heading").text.strip()
+            classGrade = parser.find("span", "sg-header-heading sg-right").text.strip().replace("Student Grades ", "").replace("%", "")
 
-        for name in doubleWeighted:
-            if(name in className.lower()):
-                classCredits = "2"
+            if("advanced" in className.lower() or "ap" in className.lower()):
+                classWeight = "6"
+            elif("ism" in className.lower() or "academic dec" in className.lower()):
+                classWeight = "5.5"
             else:
-                classCredits = "1"
-        
+                classWeight = "5"
 
-        courses.append({
-            "name": className,
-            "grade": classGrade,
-            "weight": classWeight,
-            "credits": classCredits
-        })
+            for name in doubleWeighted:
+                if(name in className.lower()):
+                    classCredits = "2"
+                else:
+                    classCredits = "1"
+            
+        for ac in assignementsContainer:
+            parser = createBS4Parser(f"<html><body>{ac}</body></html>")
+            rows = parser.find_all("tr", "sg-asp-table-data-row")
+            for assignmentContainer in rows:
+                try:    
+                    parser = createBS4Parser(f"<html><body>{assignmentContainer}</body></html>")
+                    tds = parser.find_all("td")
+                    assignmentName = parser.find("a").text.strip()
+                    assignmentDateDue = tds[0].text.strip()
+                    assignmentDateAssigned = tds[1].text.strip()
+                    assignmentCategory = tds[3].text.strip()
+                    assignmentScore = tds[4].text.strip()
+                    assignmentTotalPoints = tds[5].text.strip()
+
+                    assignments.append(
+                        {
+                            "dateDue": assignmentDateDue,
+                            "dateAssigned": assignmentDateAssigned,
+                            "assignment": assignmentName,
+                            "category": assignmentCategory,
+                            "score": assignmentScore,
+                            "totalPoints" : assignmentTotalPoints
+                        }
+                    )         
+                except:
+                    pass
+        courses.append(
+            {
+               "name" : className,
+               "grade" : classGrade,
+               "weight" : classWeight,
+               "credits" : classCredits,
+               "assignments": assignments 
+            }
+        )
 
     return courses
+
