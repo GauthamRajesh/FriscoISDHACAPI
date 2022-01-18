@@ -1,8 +1,10 @@
 from flask import Flask, request
+from flask_cors import CORS
 from index import (getGPAS, getInfo, getCurrentClasses, predictGPA)
 from fakeData import *
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/", methods=["GET"])
 def home():
