@@ -1,9 +1,10 @@
 
-# FISDHACAPI
+# GradualGrades API
 
-REST API to scrape student information from Frisco ISD's Home Access Center (HAC) using puppeteer.js
+REST API to scrape student information from Frisco ISD's Home Access Center (HAC) using python requests and Beautiful Soup
 
-Hosted on a Python Flask server on Heroku
+Powers the Gradual Grades mobile app developed with @mjdierkes
+https://github.com/mjdierkes
 
 ----------
 
