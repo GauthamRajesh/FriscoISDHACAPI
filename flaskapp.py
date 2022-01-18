@@ -52,7 +52,7 @@ def sendCurrentClasses():
 
     return {"currentClasses": courses}
 
-@app.route("/students/predictedGPA", methods=["POST"])
+@app.route("/predictedGPA", methods=["POST"])
 def sendPredictedGPA():
     weightedGPA = request.json["weightedGPA"]
     unweightedGPA = request.json["unweightedGPA"]
