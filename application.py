@@ -62,3 +62,10 @@ def sendPredictedGPA():
     print(predictGPA(weightedGPA, unweightedGPA, studentGrade, currentClasses))
 
     return "Success"
+
+app.add_url_rule('/', 'index', (lambda: "Hello World"))
+if __name__ == "__main__":
+    # Setting debug to True enables debug output. This line should be
+    # removed before deploying a production app.
+    app.debug = True
+    app.run()
