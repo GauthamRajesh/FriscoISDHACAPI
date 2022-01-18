@@ -3,11 +3,11 @@
 
 REST API to scrape student information from Frisco ISD's Home Access Center (HAC) using puppeteer.js
 
-Hosted with Express.js on a Raspberry Pi through Cloudflare Argo tunnel
+Hosted on a Python Flask server on Heroku
 
 ----------
 
-Base API URL: https://private-cornwall-affairs-landscape.trycloudflare.com
+Base API URL: https://gradualgrades.herokuapp.com/
 
 
 Frisco ISD Real-time GPA Site:
@@ -20,11 +20,10 @@ Demo: https://fisd-gpa-calc.herokuapp.com/
 
 Technologies Used:
 -
-- Puppeteer.js
-- Node.js
-- Express.js
-- Raspberry Pi (Debian Linux)
-- JavaScript
+- Python
+- Flask
+- BeautifulSoup
+
 
 
 ## API Reference
@@ -38,7 +37,6 @@ Note: Make sure to pass username and password as query strings for GET routes
 Routes:
 - GET student GPAs
 - GET student information
-- GET student class data
 - GET student class data with assignment details
 - POST get student predicted GPAs
 
@@ -57,7 +55,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/gpa?username=john&password=doe").then((res) => {
+axios.get("https://gradualgrades.herokuapp.com/students/gpa?username=john&password=doe").then((res) => {
     console.log(res.data); //Make sure to denote what data you want from the response
 }).catch((error) => {
     console.log(error);
@@ -66,7 +64,7 @@ axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students
 cURL:
 ``` cURL
 curl -X GET \
-  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/gpa?username=john&password=doe' \
+  'https://gradualgrades.herokuapp.com/students/gpa?username=john&password=doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -74,10 +72,8 @@ curl -X GET \
 Response:
 ``` json
 {
-  "currentGPAS": {
-    "weightedGPA" : 5.05,
-    "unweightedGPA" : 3.88
-  }
+    "unweightedGPA" : "3.8800",
+    "weightedGPA" : "5.0500"
 }
 ```
 
@@ -96,7 +92,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/info?username=john&password=doe").then((res) => {
+axios.get("https://gradualgrades.herokuapp.com/students/info?username=john&password=doe").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -105,7 +101,7 @@ axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students
 cURL:
 ``` cURL
 curl -X GET \
-  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/info?username=john&password=doe' \
+  'https://gradualgrades.herokuapp.com/students/info?username=john&password=doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -113,20 +109,17 @@ curl -X GET \
 Response:
 ``` json
 {
-  "studentData": {
-    "studentID": "123456",
-    "studentName": "John Doe",
     "studentBirthDate": "12/24/2003",
-    "studentCounselor": "NELSON-MOON, LANNIS",
     "studentBuilding": "Heritage High School",
-    "studentGrade": "12"
-  }
+    "studentGrade": "12",
+    "studentID": "123456",
+    "studentName": "Jonh Doe"
 }
 ```
 
 <br>
 
-#### Get student's current classes information (Name, Grade, Weight, Credits)
+#### Get student's current classes information (Name, Grade, Weight, Credits) and assignments
 
 ```http
   GET /students/currentclasses
@@ -139,7 +132,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses?username=john&password=doe").then((res) => {
+axios.get("https://gradualgrades.herokuapp.com/students/currentclasses?username=john&password=doe").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -148,7 +141,7 @@ axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students
 
 ``` cURL
 curl -X GET \
-  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses?username=john&password=doe' \
+  'https://gradualgrades.herokuapp.com/students/currentclasses?username=john&password=doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -159,299 +152,328 @@ Response:
   "currentClasses": [
     {
       "name": "CATE27600B - 3    Mobile App Programming S2@CTEC",
-      "grade": 0,
-      "weight": 6,
-      "credits": 1
+      "grade": "",
+      "weight": "6",
+      "credits": "1"
+      "Last Updated": "",
+      "assignments": []
     },
+
     {
       "name": "CATE36400B - 1    Prac News Prod 2 S2",
-      "grade": 0,
-      "weight": 5,
-      "credits": 1
-    },
-    {
-      "name": "ELA14300B - 4    AP English Literature S2",
-      "grade": 80,
-      "weight": 6,
-      "credits": 1
-    },
-    {
-      "name": "MTH45300B - 1    AP Calculus AB S2",
-      "grade": 80.8,
-      "weight": 6,
-      "credits": 1
-    },
-    {
-      "name": "MTH45310B - 4    AP Statistics S2",
-      "grade": 0,
-      "weight": 6,
-      "credits": 1
-    },
-    {
-      "name": "SCI43300B - 1    AP Environmental Science S2",
-      "grade": 0,
-      "weight": 6,
-      "credits": 1
-    },
-    {
-      "name": "SST34300 - 4    AP Government",
-      "grade": 0,
-      "weight": 6,
-      "credits": 1
-    }
-  ]
-}
-```
-
-<br>
-
-#### Get student's current classes with assignments
-
-```http
-  GET /students/currentclasses/details
-```
-Query Parameters:
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `username`      | `string` | **Required**. HAC username |
-| `password`      | `string` | **Required**. HAC password |
-
-Example Request (Axios):
-``` javascript
-axios.get("https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses/details?username=john&password=doe").then((res) => {
-    console.log(res.data);
-}).catch((error) => {
-    console.log(error);
-})
-```
-cURL:
-``` cURL
-curl -X GET \
-  'https://private-cornwall-affairs-landscape.trycloudflare.com/students/currentclasses/details?username=john&password=doe' \
-  -H 'Accept: */*' \
-  -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
-```
-
-Response:
-``` json
-{
-  "currentClassesDetails": [
-    {
-      "className": "CATE36400B - 1 Prac News Prod 2 S2",
-      "classGrade": "",
+      "grade": "",
+      "weight": "5",
+      "credits": "1",
+      "Last Updated": "1/6/2022",
       "assignments": [
         {
-          "dateDue": "03/04/2022",
-          "dateAssigned": "02/09/2022",
           "assignment": "PA Script #3",
           "category": "Minor Grades",
+          "dateAssigned": "02/09/2022",
+          "dateDue": "03/04/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "03/02/2022",
-          "dateAssigned": "01/04/2022",
           "assignment": "Social Media Posts",
           "category": "Minor Grades",
+          "dateAssigned": "01/04/2022",
+          "dateDue": "03/02/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "03/02/2022",
-          "dateAssigned": "01/10/2022",
           "assignment": "MP3 Package/Segment #2",
           "category": "Major Grades",
+          "dateAssigned": "01/10/2022",
+          "dateDue": "03/02/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "02/08/2022",
-          "dateAssigned": "01/24/2022",
+          "assignment": "Event Coverage",
+          "category": "Major Grades",
+          "dateAssigned": "01/04/2022",
+          "dateDue": "02/25/2022",
+          "score": "",
+          "totalPoints": "100.00"
+        },
+        {
           "assignment": "PA Script #2",
           "category": "Minor Grades",
+          "dateAssigned": "01/24/2022",
+          "dateDue": "02/08/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "02/04/2022",
-          "dateAssigned": "01/11/2022",
           "assignment": "MP3 Package/Segment #1",
           "category": "Major Grades",
+          "dateAssigned": "01/11/2022",
+          "dateDue": "02/04/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/21/2022",
-          "dateAssigned": "01/04/2022",
           "assignment": "PA Script #1",
           "category": "Minor Grades",
+          "dateAssigned": "01/04/2022",
+          "dateDue": "01/21/2022",
           "score": "97.00",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/06/2022",
-          "dateAssigned": "01/04/2022",
           "assignment": "MP3 Calendar Check",
           "category": "Non-graded",
+          "dateAssigned": "01/04/2022",
+          "dateDue": "01/06/2022",
           "score": "100.0",
           "totalPoints": "100.00"
         }
       ]
     },
+
     {
-      "className": "ELA14300B - 4 AP English Literature S2",
-      "classGrade": "80.00",
+      "name": "ELA14300B - 4    AP English Literature S2",
+      "grade": "85.00",
+      "weight": "6",
+      "credits": "1",
+      "Last Updated": "1/13/2022",
       "assignments": [
         {
-          "dateDue": "01/05/2022",
-          "dateAssigned": " ",
+          "assignment": "Thesis Practice #1",
+          "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/13/2022",
+          "score": "90.00",
+          "totalPoints": "100.00"
+        },
+        {
           "assignment": "Christmas Carol Q3 Essay",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/05/2022",
           "score": "80.00",
           "totalPoints": "100.00"
         }
       ]
     },
+
     {
-      "className": "MTH45300B - 1 AP Calculus AB S2",
-      "classGrade": "80.80",
+      "name": "MTH45300B - 1    AP Calculus AB S2",
+      "grade": "80.80",
+      "weight": "6",
+      "credits": "1",
+      "Last Updated": "1/10/2022",
       "assignments": [
         {
-          "dateDue": "02/08/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 6 Test (Integration)",
           "category": "Major Grades",
+          "dateAssigned": "",
+          "dateDue": "02/08/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "02/08/2022",
-          "dateAssigned": " ",
           "assignment": "Delta Math Practice (Unit 6)",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "02/08/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/31/2022",
-          "dateAssigned": " ",
           "assignment": "Quiz 4 (Antiderivatives and Rules of Integration)",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/31/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/27/2022",
-          "dateAssigned": " ",
           "assignment": "Quiz 3 (FTC and Definite Integrals)",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/27/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/25/2022",
-          "dateAssigned": " ",
           "assignment": "Quiz 2 (Properties of Def. Integrals)",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/25/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/19/2022",
-          "dateAssigned": " ",
           "assignment": "Quiz 1 (Reimann Sums and Definite Integrals)",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/19/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/10/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 5 Test (Analytical Applications of Derivatives)",
           "category": "Major Grades",
+          "dateAssigned": "",
+          "dateDue": "01/10/2022",
           "score": "78.00",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/10/2022",
-          "dateAssigned": " ",
           "assignment": "Delta Math Practice (Unit 5)",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/10/2022",
           "score": "85.00",
           "totalPoints": "100.00"
         }
       ]
     },
+
     {
-      "className": "SST34300 - 4 AP Government",
-      "classGrade": "",
+      "name": "MTH45310B - 4    AP Statistics S2",
+      "grade": "0.00",
+      "weight": "6",
+      "credits": "1",
+      "Last Updated": "",
       "assignments": [
         {
-          "dateDue": "02/23/2022",
-          "dateAssigned": " ",
+          "assignment": "Test - 8 Confidence Intervals",
+          "category": "Major Grades",
+          "dateAssigned": "",
+          "dateDue": "01/26/2022",
+          "score": "",
+          "totalPoints": "100.00"
+        },
+        {
+          "assignment": "Skills Check - 8 Confidence Intervals",
+          "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/24/2022",
+          "score": "",
+          "totalPoints": "100.00"
+        },
+        {
+          "assignment": "Practice - 8.3 (canvas)",
+          "category": "Non-graded",
+          "dateAssigned": "",
+          "dateDue": "01/24/2022",
+          "score": "",
+          "totalPoints": "100.00"
+        },
+        {
+          "assignment": "Practice - 8.2 (canvas)",
+          "category": "Non-graded",
+          "dateAssigned": "",
+          "dateDue": "01/24/2022",
+          "score": "",
+          "totalPoints": "100.00"
+        },
+        {
+          "assignment": "Practice - 8.1 (canvas)",
+          "category": "Non-graded",
+          "dateAssigned": "",
+          "dateDue": "01/24/2022",
+          "score": "",
+          "totalPoints": "100.00"
+        },
+        {
+          "assignment": "Group Skills Check - 7 Sampling Distributions",
+          "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/11/2022",
+          "score": "",
+          "totalPoints": "50.00"
+        }
+      ]
+    },
+
+    {
+      "name": "SCI43300B - 1    AP Environmental Science S2",
+      "grade": "",
+      "weight": "6",
+      "credits": "1",
+      "Last Updated": "",
+      "assignments": []
+    },
+
+    {
+      "name": "SST34300 - 4    AP Government",
+      "grade": "0.00",
+      "weight": "6",
+      "credits": "1",
+      "Last Updated": "",
+      "assignments": [
+        {
           "assignment": "Midterm Exam (Units 1 & 2)",
           "category": "Major Grades",
+          "dateAssigned": "",
+          "dateDue": "02/23/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "02/16/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 2 Major Grade FRQ",
           "category": "Major Grades",
+          "dateAssigned": "",
+          "dateDue": "02/16/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "02/14/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 2 MC Quiz",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "02/14/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "02/11/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 2 Argument FRQ Practice",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "02/11/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "02/04/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 2 Congress FRQ Practice",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "02/04/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/21/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 1 Major Grade FRQ",
           "category": "Major Grades",
+          "dateAssigned": "",
+          "dateDue": "01/21/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/21/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 1 MC Quiz",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/21/2022",
           "score": "",
           "totalPoints": "100.00"
         },
         {
-          "dateDue": "01/14/2022",
-          "dateAssigned": " ",
           "assignment": "Unit 1 Concept Application & Argument FRQ Practice",
           "category": "Minor Grades",
+          "dateAssigned": "",
+          "dateDue": "01/14/2022",
           "score": "",
           "totalPoints": "100.00"
         }
       ]
     }
+
   ]
 }
 ```
@@ -464,6 +486,8 @@ Response:
   POST /predictedGPA
 ```
 Body (JSON): *Route will accept only JSON data in the body
+
+*All numbers must not be strings
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `weightedGPA` | `number` | **Required**. Student's weighted GPA in HAC |
@@ -474,7 +498,7 @@ Body (JSON): *Route will accept only JSON data in the body
 Example Request (Axios):
 
 ```javascript
-  axios.post(`https://private-cornwall-affairs-landscape.trycloudflare.com/predictedGPA`, {
+  axios.post(`https://gradualgrades.herokuapp.com/predictedGPA`, {
     weightedGPA: 5.05,
     unweightedGPA: 3.88,
     studentGrade: 12,
@@ -532,7 +556,7 @@ Example Request (Axios):
 Example Request (cURL):
 ``` cURL
 curl -X POST \
-  'https://virtually-surplus-outcomes-entirely.trycloudflare.com/predictedGPA' \
+  'https://gradualgrades.herokuapp.com/predictedGPA' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)' \
   -H 'Content-Type: application/json' \
@@ -596,19 +620,10 @@ Response
 ```
 ## FAQ
 
-#### How does the API pull information from HAC
-
-The puppeteer web scraping library is used with Node.js to log into a students HAC once they pass in a username and password. The scraper logs into the account and navigates the tabs and scrapes information.
-
 #### How secure is the API
 
 No user information is stored in any databases. All of the proccessing that happens in a request is dumped once the request has resolved.
 
-#### Why does the base URI look weird
-
-The API is hosted on an express.js server on a Raspberry Pi which is then exposed to the web through a Cloudflare Argo tunnel which provides a URI on it's own.
-
-https://blog.cloudflare.com/a-free-argo-tunnel-for-your-next-project/
 ## Feedback
 
 If you have any feedback, please reach out to me at vs.nalavade2003@gmail.com
