@@ -59,9 +59,7 @@ def sendPredictedGPA():
     studentGrade = request.json["studentGrade"]
     currentClasses = request.json["currentClasses"]
 
-    print(predictGPA(weightedGPA, unweightedGPA, studentGrade, currentClasses))
-
-    return "Success"
+    return (predictGPA(weightedGPA, unweightedGPA, studentGrade, currentClasses))
 
 app.add_url_rule('/', 'index', (lambda: "Hello World"))
 if __name__ == "__main__":
