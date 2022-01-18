@@ -3,8 +3,12 @@
 
 REST API to scrape student information from Frisco ISD's Home Access Center (HAC) using python requests and Beautiful Soup
 
-Powers the Gradual Grades mobile app developed with @mjdierkes
-https://github.com/mjdierkes
+
+Powers the Gradual Grades mobile app developed with @mjdierkes. https://github.com/mjdierkes
+
+If you are looking to build a Grade App, feel free to reach out us and be a part of the Gradual Team!
+
+
 
 ----------
 
