@@ -1,5 +1,7 @@
+import imp
 import requests
 from bs4 import BeautifulSoup
+from course import Course
 
 LOGIN_URL = "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
 TRANSCRIPT_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx"
@@ -100,7 +102,7 @@ def getInfo(username, password):
 
 def getCurrentClasses(username, password):
     courses = []
-   
+
     classesDOM = getPage(username, password, CLASSES_URL)
 
     parser = createBS4Parser(classesDOM.text)
@@ -111,29 +113,25 @@ def getCurrentClasses(username, password):
         headerContainer = parser.find_all("div", "sg-header sg-header-square")
         assignementsContainer = parser.find_all("div", "sg-content-grid")
 
-        className = ""
-        classGrade = ""
-        classWeight = ""
-        classCredits = ""
-        assignments = []
+        newCourse = Course("", "", "", "", [])
 
         for hc in headerContainer:
             parser = createBS4Parser(f"<html><body>{hc}</body></html>")
-            className = parser.find("a", "sg-header-heading").text.strip()
-            classGrade = parser.find("span", "sg-header-heading sg-right").text.strip().replace("Student Grades ", "").replace("%", "")
+            newCourse.name = parser.find("a", "sg-header-heading").text.strip()
+            newCourse.grade = parser.find("span", "sg-header-heading sg-right").text.strip().replace("Student Grades ", "").replace("%", "")
 
-            if("advanced" in className.lower() or "ap" in className.lower()):
-                classWeight = "6"
-            elif("ism" in className.lower() or "academic dec" in className.lower()):
-                classWeight = "5.5"
+            if("advanced" in newCourse.name.lower() or "ap" in newCourse.name.lower()):
+                newCourse.weight = "6"
+            elif("ism" in newCourse.name.lower() or "academic dec" in newCourse.name.lower()):
+                newCourse.weight = "5.5"
             else:
-                classWeight = "5"
+                newCourse.weight = "5"
 
             for name in doubleWeighted:
-                if(name in className.lower()):
-                    classCredits = "2"
+                if(name in newCourse.name.lower()):
+                    newCourse.credits = "2"
                 else:
-                    classCredits = "1"
+                    newCourse.credits = "1"
             
         for ac in assignementsContainer:
             parser = createBS4Parser(f"<html><body>{ac}</body></html>")
@@ -149,7 +147,7 @@ def getCurrentClasses(username, password):
                     assignmentScore = tds[4].text.strip()
                     assignmentTotalPoints = tds[5].text.strip()
 
-                    assignments.append(
+                    newCourse.assignments.append(
                         {
                             "dateDue": assignmentDateDue,
                             "dateAssigned": assignmentDateAssigned,
@@ -161,15 +159,7 @@ def getCurrentClasses(username, password):
                     )         
                 except:
                     pass
-        courses.append(
-            {
-               "name" : className,
-               "grade" : classGrade,
-               "weight" : classWeight,
-               "credits" : classCredits,
-               "assignments": assignments 
-            }
-        )
-
+        courses.append(newCourse)
+       
     return courses
 
