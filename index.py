@@ -1,71 +1,5 @@
-import imp
-import requests
-from bs4 import BeautifulSoup
 from course import Course
-
-LOGIN_URL = "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
-TRANSCRIPT_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx"
-REGISTRATION_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Registration.aspx"
-CLASSES_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx"
-
-doubleWeighted = ['gt', 'physics c', 'veterinary', 'equipment', 'architectural design 2', 'interior design 2', 'animation', 'sports broadcasting', 'graphic Design', 'child guidance',
-'education and training', 'practicum in govern', 'clinical', 'electrocardiography', 'medical technician', 'hospitality', 'culinary', 'ap computer', 'sports management']
-
-# Create a BS4 object to parse the HTML string
-def createBS4Parser(content):
-    return BeautifulSoup(content, "html.parser")
-
-#Extract the requestVerificationToken needed in the headers
-#Return a tuple containing the token and the request session
-#Note: The requestVerificationToken is linked to the request session so any function using the token must also use the request session
-def getRequestVerificationToken():
-    session_requests = requests.session()
-    result = session_requests.get(LOGIN_URL)
-    parser = createBS4Parser(result.text)
-    return [parser.find('input', attrs={'name': '__RequestVerificationToken'})["value"], session_requests]
-
-def createRequestHeaders(requestVerificationToken):
-    return {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36',
-    'X-Requested-With': 'XMLHttpRequest',
-    'Host': 'hac.friscoisd.org',
-    'Origin': 'hac.friscoisd.org',
-    'Referer': "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fhomeaccess%2f",
-    '__RequestVerificationToken': requestVerificationToken
-    }
-
-def createRequestPayload(username, password, requestVerificationToken):
-    return {
-        "__RequestVerificationToken" : requestVerificationToken,
-        "SCKTY00328510CustomEnabled" : "False",
-        "SCKTY00436568CustomEnabled" : "False",
-        "Database" : "10",
-        "VerificationOption" : "UsernamePassword",
-        "LogOnDetails.UserName": username,
-        "tempUN" : "",
-        "tempPW" : "",
-        "LogOnDetails.Password" : password
-    }
-
-#Return the page of the final location
-def getPage(username, password, pageURL):
-    (requestVerificationToken, session_requests) = getRequestVerificationToken()
-
-    requestHeaders = createRequestHeaders(requestVerificationToken)
-    requestPayload = createRequestPayload(username, password, requestVerificationToken)
-
-    #Get through the login screen
-    pageDOM = session_requests.post(
-        LOGIN_URL,
-        data=requestPayload,
-        headers=requestHeaders
-    )
-
-    #Reroute to the final page
-    pageDOM = session_requests.get(pageURL)
-
-    return pageDOM
-
+from utils import *
 
 #Get current student GPAs from their transcript
 def getGPAS(username, password):
@@ -80,6 +14,7 @@ def getGPAS(username, password):
         "unweightedGPA": unWeightedGPA
     }
 
+#Get student info
 def getInfo(username, password):
     registrationDOM = getPage(username, password, REGISTRATION_URL)
 
@@ -100,6 +35,8 @@ def getInfo(username, password):
         "counselor" : studentCounselor
     }
 
+#Get an array of course instances
+#Access the Assignments page in HAC, extract the name and grade of the class as well as a list of assignments of that class and build a Course object
 def getCurrentClasses(username, password):
     courses = []
 
