@@ -1,3 +1,4 @@
+from typing import final
 from course import Course
 from utils import *
 
@@ -50,13 +51,14 @@ def getCurrentClasses(username, password):
         headerContainer = parser.find_all("div", "sg-header sg-header-square")
         assignementsContainer = parser.find_all("div", "sg-content-grid")
 
-        newCourse = Course("", "", "", "", [])
+        newCourse = Course("", "", "", "", "", [])
 
         for hc in headerContainer:
             parser = createBS4Parser(f"<html><body>{hc}</body></html>")
             newCourse.name = parser.find("a", "sg-header-heading").text.strip()
+            newCourse.updateDate = parser.find("span", "sg-header-sub-heading").text.strip().replace("(Last Updated: ", "").replace(")", "")
             newCourse.grade = parser.find("span", "sg-header-heading sg-right").text.strip().replace("Student Grades ", "").replace("%", "")
-
+           
             if("advanced" in newCourse.name.lower() or "ap" in newCourse.name.lower()):
                 newCourse.weight = "6"
             elif("ism" in newCourse.name.lower() or "academic dec" in newCourse.name.lower()):
@@ -100,3 +102,53 @@ def getCurrentClasses(username, password):
        
     return courses
 
+def predictGPA(currentWeightedGPA, currentUnweightedGPA, studentGrade, currentClasses):
+    pastSemesters = ((studentGrade - 8) * 2) - 1;
+    finalWeightedGPA = 0
+    finalUnweightedGPA = 0
+
+    weightedGPAList = [];
+    unweightedGPAList = [];
+    totalCredits = 0
+    for course in currentClasses:
+        totalCredits += course["credits"]
+
+    for course in currentClasses:
+        weightedGPA = 0
+        unweightedGPA = 0
+
+        if(course["grade"] < 70):
+            weightedGPA = 0
+            unweightedGPA = 0
+        elif(course["grade"] == 70):
+            weightedGPA = 3
+            unweightedGPA = 2
+        else:
+            weightedGPA = ((course["weight"] - ((100 - course["grade"])/10)) * course["credits"])
+            unweightedGPA = ((4.0 - ((90 - course["grade"])/10))* course["credits"])
+
+            if(course["credits"] == 2 and unweightedGPA > 8):
+                unweightedGPA = 8.0
+            elif(unweightedGPA > 4):
+                unweightedGPA = 4
+
+        weightedGPAList.append(weightedGPA)
+        unweightedGPAList.append(unweightedGPA)   
+
+
+    finalWeightedGPA = 0
+    finalUnweightedGPA = 0
+
+    for i in weightedGPAList:
+        finalWeightedGPA += i
+    finalWeightedGPA /= totalCredits
+
+    for i in unweightedGPAList:
+        finalUnweightedGPA += i
+    finalUnweightedGPA /= totalCredits
+
+    finalWeightedGPA = (((currentWeightedGPA) * pastSemesters) + finalWeightedGPA) / (pastSemesters+1)
+    finalUnweightedGPA = (((currentUnweightedGPA) * pastSemesters) + finalUnweightedGPA) / (pastSemesters+1)  
+
+
+    return { "finalWeightedGPA" : finalWeightedGPA, "finalUnweightedGPA" : finalUnweightedGPA }
