@@ -12,7 +12,7 @@ If you are looking to build a Grade App, feel free to reach out us and be a part
 
 ----------
 
-Base API URL: https://gradualgrades.herokuapp.com/
+Base API URL: http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/
 
 
 Frisco ISD Real-time GPA Site:
@@ -28,6 +28,8 @@ Technologies Used:
 - Python
 - Flask
 - BeautifulSoup
+- AWS ElasticBeanstalk
+- Heroku
 
 
 
@@ -37,7 +39,7 @@ Technologies Used:
 
 **Demo Password: "Doe"**
 
-Note: Make sure to pass username and password as query strings for GET routes
+Note: Make sure to pass username and password as parameters for GET routes
 
 Routes:
 - GET student GPAs
@@ -60,7 +62,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://gradualgrades.herokuapp.com/students/gpa?username=john&password=doe").then((res) => {
+axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/gpa/177611/12242003").then((res) => {
     console.log(res.data); //Make sure to denote what data you want from the response
 }).catch((error) => {
     console.log(error);
@@ -69,7 +71,7 @@ axios.get("https://gradualgrades.herokuapp.com/students/gpa?username=john&passwo
 cURL:
 ``` cURL
 curl -X GET \
-  'https://gradualgrades.herokuapp.com/students/gpa?username=john&password=doe' \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/gpa/177611/12242003' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -97,7 +99,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://gradualgrades.herokuapp.com/students/info?username=john&password=doe").then((res) => {
+axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/info/177611/12242003").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -106,7 +108,7 @@ axios.get("https://gradualgrades.herokuapp.com/students/info?username=john&passw
 cURL:
 ``` cURL
 curl -X GET \
-  'https://gradualgrades.herokuapp.com/students/info?username=john&password=doe' \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/info/177611/12242003' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -137,7 +139,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("https://gradualgrades.herokuapp.com/students/currentclasses?username=john&password=doe").then((res) => {
+axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/currentclasses/177611/12242003").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -146,7 +148,7 @@ axios.get("https://gradualgrades.herokuapp.com/students/currentclasses?username=
 
 ``` cURL
 curl -X GET \
-  'https://gradualgrades.herokuapp.com/students/currentclasses?username=john&password=doe' \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/currentclasses/177611/12242003' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -503,7 +505,7 @@ Body (JSON): *Route will accept only JSON data in the body
 Example Request (Axios):
 
 ```javascript
-  axios.post(`https://gradualgrades.herokuapp.com/predictedGPA`, {
+  axios.post(`http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/predictedGPA`, {
     weightedGPA: 5.05,
     unweightedGPA: 3.88,
     studentGrade: 12,
@@ -561,7 +563,7 @@ Example Request (Axios):
 Example Request (cURL):
 ``` cURL
 curl -X POST \
-  'https://gradualgrades.herokuapp.com/predictedGPA' \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/predictedGPA' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)' \
   -H 'Content-Type: application/json' \
@@ -635,5 +637,5 @@ If you have any feedback, please reach out to me at vs.nalavade2003@gmail.com
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[Creative Commons ShareAlike 4.0]https://creativecommons.org/licenses/by-sa/4.0/
 
