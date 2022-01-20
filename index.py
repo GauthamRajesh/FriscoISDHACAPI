@@ -1,4 +1,3 @@
-from typing import final
 from course import Course
 from utils import *
 
