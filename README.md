@@ -62,7 +62,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/gpa/177611/12242003").then((res) => {
+axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/gpa/john/doe").then((res) => {
     console.log(res.data); //Make sure to denote what data you want from the response
 }).catch((error) => {
     console.log(error);
@@ -71,7 +71,7 @@ axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/
 cURL:
 ``` cURL
 curl -X GET \
-  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/gpa/177611/12242003' \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/gpa/john/doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -99,7 +99,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/info/177611/12242003").then((res) => {
+axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/info/john/doe").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -108,7 +108,7 @@ axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/
 cURL:
 ``` cURL
 curl -X GET \
-  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/info/177611/12242003' \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/info/john/doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
@@ -139,7 +139,7 @@ Query Parameters:
 
 Example Request (Axios):
 ``` javascript
-axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/currentclasses/177611/12242003").then((res) => {
+axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/currentclasses/john/doe").then((res) => {
     console.log(res.data);
 }).catch((error) => {
     console.log(error);
@@ -148,7 +148,7 @@ axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/
 
 ``` cURL
 curl -X GET \
-  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/currentclasses/177611/12242003' \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/students/currentclasses/john/doe' \
   -H 'Accept: */*' \
   -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
 ```
