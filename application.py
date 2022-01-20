@@ -62,10 +62,3 @@ def sendPredictedGPA():
     currentClasses = request.json["currentClasses"]
 
     return (predictGPA(weightedGPA, unweightedGPA, studentGrade, currentClasses))
-
-application.add_url_rule('/', 'index', (lambda: "Hello World"))
-if __name__ == "__main__":
-    # Setting debug to True enables debug output. This line should be
-    # removed before deploying a production app.
-    application.debug = True
-    application.run()
