@@ -1,4 +1,4 @@
-studentData = {"studentID" : "123456", "studentName":"Jonh Doe","studentBirthDate":"12/24/2003", "studentBuilding":"Heritage High School","studentGrade":"12"}
+studentData = {"id" : "123456", "name":"Jonh Doe","birthdate":"12/24/2003", "campus":"Heritage High School","grade":"12"}
 currentGPAS = {"weightedGPA":"5.0500","unweightedGPA":"3.8800"}
 currentClasses = {
     "currentClasses" : [
