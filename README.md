@@ -52,7 +52,7 @@ Routes:
 #### Get a students HAC weighted & unweighted GPA
 
 ```http
-  GET /students/gpa
+  GET /students/gpa/{username}/{password}
 ```
 Query Parameters:
 | Parameter | Type     | Description                |
@@ -89,7 +89,7 @@ Response:
 #### Get student information (Name, Grade, Counselor etc...)
 
 ```http
-  GET /students/info
+  GET /students/info/{username}/{password}
 ```
 Query Parameters:
 | Parameter | Type     | Description                       |
@@ -129,7 +129,7 @@ Response:
 #### Get student's current classes information (Name, Grade, Weight, Credits) and assignments
 
 ```http
-  GET /students/currentclasses
+  GET /students/currentclasses/{username}/{password}
 ```
 Query Parameters:
 | Parameter | Type     | Description                       |
