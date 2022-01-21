@@ -62,7 +62,7 @@ def sendPredictedGPA():
 
     return (predictGPA(weightedGPA, unweightedGPA, studentGrade, currentClasses))
 
-@application.route("/satdates", methods=["POST"])
+@application.route("/satdates", methods=["GET"])
 def sendSATDates():
     return {
         "dates" : getSATDates()
