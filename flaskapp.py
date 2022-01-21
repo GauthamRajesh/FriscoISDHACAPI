@@ -1,8 +1,6 @@
-from crypt import methods
 from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
-from werkzeug.exceptions import HTTPException
-from index import (getGPAS, getInfo, getCurrentClasses, predictGPA)
+from index import (getGPAS, getInfo, getCurrentClasses, predictGPA, getSATDates)
 from fakeData import *
 
 application = Flask(__name__)
@@ -63,3 +61,9 @@ def sendPredictedGPA():
     currentClasses = request.json["currentClasses"]
 
     return (predictGPA(weightedGPA, unweightedGPA, studentGrade, currentClasses))
+
+@application.route("/satdates", methods=["POST"])
+def sendSATDates():
+    return {
+        "dates" : getSATDates()
+    }

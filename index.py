@@ -1,5 +1,7 @@
+from ast import parse
 from course import Course
 from utils import *
+import requests
 
 #Get current student GPAs from their transcript
 def getGPAS(username, password):
@@ -151,3 +153,10 @@ def predictGPA(currentWeightedGPA, currentUnweightedGPA, studentGrade, currentCl
 
 
     return { "finalWeightedGPA" : finalWeightedGPA, "finalUnweightedGPA" : finalUnweightedGPA }
+
+def getSATDates():
+    session_requests = requests.session()
+    result = session_requests.get("https://satsuite.collegeboard.org/sat/registration/dates-deadlines")
+
+    parser = createBS4Parser(result.text)
+    return [x.text.strip().replace("**", "") for x in parser.find_all("td", "cb-table-callout")]
