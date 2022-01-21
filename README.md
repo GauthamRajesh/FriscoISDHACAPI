@@ -46,6 +46,7 @@ Routes:
 - GET student information
 - GET student class data with assignment details
 - POST get student predicted GPAs
+- GET SAT testing dates
 
 <br>
 
@@ -625,6 +626,47 @@ Response
   "finalUnweightedGPA": "3.8539464285714287"
 }
 ```
+
+<br>
+
+#### Get upcoming SAT testing dates from CollegeBoard
+
+```http
+  GET /satdates
+```
+
+Example Request (Axios):
+``` javascript
+axios.get("http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/satdates").then((res) => {
+    console.log(res.data); //Make sure to denote what data you want from the response
+}).catch((error) => {
+    console.log(error);
+})
+```
+cURL:
+``` cURL
+curl -X GET \
+  'http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/satdates' \
+  -H 'Accept: */*' \
+  -H 'User-Agent: Thunder Client (https://www.thunderclient.io)'
+```
+
+Response:
+``` json
+{
+  "dates": [
+    "Aug 28, 2021",
+    "Oct 2, 2021",
+    "Nov 6, 2021",
+    "Dec 4, 2021",
+    "Mar 12, 2022",
+    "May 7, 2022",
+    "Jun 4, 2022"
+  ]
+}
+```
+
+<br>
 ## FAQ
 
 #### How secure is the API
