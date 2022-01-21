@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from flask import abort
+from AppError import AppError
 
 LOGIN_URL = "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
 TRANSCRIPT_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx"
@@ -22,6 +22,7 @@ def getRequestVerificationToken():
     result = session_requests.get(LOGIN_URL)
     parser = createBS4Parser(result.text)
     return [parser.find('input', attrs={'name': '__RequestVerificationToken'})["value"], session_requests]
+    
 
 def createRequestHeaders(requestVerificationToken):
     return {
@@ -48,7 +49,10 @@ def createRequestPayload(username, password, requestVerificationToken):
 
 #Return the page of the final location
 def getPage(username, password, pageURL):
-    (requestVerificationToken, session_requests) = getRequestVerificationToken()
+    try:
+        (requestVerificationToken, session_requests) = getRequestVerificationToken()
+    except:
+        return AppError(500, "HAC Server Error")
 
     requestHeaders = createRequestHeaders(requestVerificationToken)
     requestPayload = createRequestPayload(username, password, requestVerificationToken)
@@ -62,7 +66,7 @@ def getPage(username, password, pageURL):
 
     #Throw a 500 error if the login fails
     if(pageDOM.url != "https://hac.friscoisd.org/HomeAccess/Classes/Schedule"):
-        abort(500, "HAC login failed")
+        return AppError(400, "HAC login failed")
 
     #Reroute to the final page
     pageDOM = session_requests.get(pageURL)
