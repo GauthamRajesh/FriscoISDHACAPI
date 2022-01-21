@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask_cors import CORS
 from index import (getGPAS, getInfo, getCurrentClasses, predictGPA)
 from fakeData import *
@@ -9,7 +9,6 @@ CORS(application)
 @application.route("/", methods=["GET"])
 def home():
     return "Hello World"
-
 
 @application.route("/students/gpa", methods=["GET"])
 def sendGPAS():

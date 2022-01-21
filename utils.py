@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from flask import abort
 
 LOGIN_URL = "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
 TRANSCRIPT_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx"
@@ -58,6 +59,10 @@ def getPage(username, password, pageURL):
         data=requestPayload,
         headers=requestHeaders
     )
+
+    #Throw a 500 error if the login fails
+    if(pageDOM.url != "https://hac.friscoisd.org/HomeAccess/Classes/Schedule"):
+        abort(500, "HAC login failed")
 
     #Reroute to the final page
     pageDOM = session_requests.get(pageURL)
