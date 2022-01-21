@@ -6,6 +6,7 @@ LOGIN_URL = "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHom
 TRANSCRIPT_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Transcript.aspx"
 REGISTRATION_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Registration.aspx"
 CLASSES_URL = "https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx"
+SATSCHEDULE_URL = "https://satsuite.collegeboard.org/sat/registration/dates-deadlines"
 
 doubleWeighted = ['gt', 'physics c', 'veterinary', 'equipment', 'architectural design 2', 'interior design 2', 'animation', 'sports broadcasting', 'graphic Design', 'child guidance',
 'education and training', 'practicum in govern', 'clinical', 'electrocardiography', 'medical technician', 'hospitality', 'culinary', 'ap computer', 'sports management']
