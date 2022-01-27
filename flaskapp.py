@@ -12,8 +12,7 @@ def home():
 
 @application.route("/students/gpa", methods=["GET"])
 def sendGPAS():
-    username = request.args.get("username")
-    password = request.args.get("password")
+    username, password = request.args.values()
 
     if(username.lower() == "john" and password.lower() == "doe"):
         return currentGPAS
@@ -22,9 +21,7 @@ def sendGPAS():
 
 @application.route("/students/info", methods=["GET"])
 def sendInfo():
-    username = request.args.get("username")
-    password = request.args.get("password")
-
+    username, password = request.args.values()
 
     if(username.lower() == "john" and password.lower() == "doe"):
             return studentData
@@ -33,8 +30,7 @@ def sendInfo():
 
 @application.route("/students/currentclasses", methods=["GET"])
 def sendCurrentClasses():
-    username = request.args.get("username")
-    password = request.args.get("password")
+    username, password = request.args.values()
 
     if(username.lower() == "john" and password.lower() == "doe"):
             return currentClasses
@@ -71,5 +67,3 @@ def sendSATDates():
     return {
         "dates" : getSATDates()
     }
-
-application.run()
