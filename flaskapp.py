@@ -1,7 +1,6 @@
-from crypt import methods
-from flask import Flask, request
+from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
-from index import (getGPAS, getInfo, getCurrentClasses, predictGPA, getSATDates, getStudentSchedule)
+from index import (getGPAS, getInfo, getCurrentClasses, predictGPA, getSATDates)
 from fakeData import *
 
 application = Flask(__name__)
@@ -31,17 +30,6 @@ def sendInfo():
             return studentData
 
     return getInfo(username, password)
-
-
-@application.route("/students/schedule", methods=["GET"])
-def sendSchedule():
-    username = request.args.get("username")
-    password = request.args.get("password")
-
-    if(username.lower() == "john" and password.lower() == "doe"):
-            return schedule
-
-    return {"schedule": getStudentSchedule(username, password)}
 
 @application.route("/students/currentclasses", methods=["GET"])
 def sendCurrentClasses():

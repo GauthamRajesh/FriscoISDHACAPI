@@ -1,4 +1,4 @@
-from click import parser
+from ast import parse
 from course import Course
 from utils import *
 import requests
@@ -36,34 +36,6 @@ def getInfo(username, password):
         "campus" : studentBuilding,
         "counselor" : studentCounselor
     }
-
-def getStudentSchedule(username, password):
-    scheduleList = []
-
-    scheduleDOM = getPage(username, password, STUDENTSCHEDULE_URL)
-
-    parser = createBS4Parser(scheduleDOM.text)
-    try:
-        classRows = parser.find_all("tr", "sg-asp-table-data-row")
-        
-        for row in classRows:
-            parser = createBS4Parser(f"<html><body>{row}</body></html>")
-            tds = [x.text.strip() for x in parser.find_all("td")]
-            scheduleList.append({
-                "courseCode" : tds[0],
-                "courseName" : tds[1],
-                "periods" : tds[2],
-                "teacher" : tds[3],
-                "room" : tds[4],
-                "days" : tds[5],
-                "markingPeriods" : tds[6],
-                "building" : tds[7],
-                "status" : tds[8]
-            })
-    except:
-        pass
-
-    return scheduleList
 
 #Get an array of course instances
 #Access the Assignments page in HAC, extract the name and grade of the class as well as a list of assignments of that class and build a Course object
@@ -163,6 +135,7 @@ def predictGPA(currentWeightedGPA, currentUnweightedGPA, studentGrade, currentCl
 
         weightedGPAList.append(weightedGPA)
         unweightedGPAList.append(unweightedGPA)   
+
 
     finalWeightedGPA = 0
     finalUnweightedGPA = 0
