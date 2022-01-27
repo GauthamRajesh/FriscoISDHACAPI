@@ -1,5 +1,196 @@
 studentData = {"id" : "123456", "name":"Doe, Jonh Thomas","birthdate":"12/24/2003", "campus":"Heritage High School","grade":"12"}
 currentGPAS = {"weightedGPA":"5.0500","unweightedGPA":"3.8800"}
+schedule = {
+  "schedule": [
+    {
+      "building": "Heritage High School",
+      "courseCode": "MTH45300A - 1",
+      "courseName": "AP Calculus AB S1",
+      "days": "A",
+      "markingPeriods": "Q1, Q2",
+      "periods": "1",
+      "room": "C112",
+      "status": "Active",
+      "teacher": "Poltl, Beth"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "SCI43300A - 1",
+      "courseName": "AP Environmental Science S1",
+      "days": "B",
+      "markingPeriods": "Q1, Q2",
+      "periods": "1",
+      "room": "C202",
+      "status": "Active",
+      "teacher": "GLENDENNING, SHAREE"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "MTH45300B - 1",
+      "courseName": "AP Calculus AB S2",
+      "days": "A",
+      "markingPeriods": "Q3, Q4",
+      "periods": "1",
+      "room": "C112",
+      "status": "Active",
+      "teacher": "Poltl, Beth"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "SCI43300B - 1",
+      "courseName": "AP Environmental Science S2",
+      "days": "B",
+      "markingPeriods": "Q3, Q4",
+      "periods": "1",
+      "room": "C202",
+      "status": "Active",
+      "teacher": "GLENDENNING, SHAREE"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "SST34310 - 3",
+      "courseName": "AP Economics",
+      "days": "A",
+      "markingPeriods": "Q1, Q2",
+      "periods": "2",
+      "room": "C117",
+      "status": "Active",
+      "teacher": "Dempsey, Patricia"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "ELA14300A - 4",
+      "courseName": "AP English Literature S1",
+      "days": "B",
+      "markingPeriods": "Q1, Q2",
+      "periods": "2",
+      "room": "B115",
+      "status": "Active",
+      "teacher": "SHASKAN, ATTICUS"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "SST34300 - 4",
+      "courseName": "AP Government",
+      "days": "A",
+      "markingPeriods": "Q3, Q4",
+      "periods": "2",
+      "room": "C116",
+      "status": "Active",
+      "teacher": "Huggins, Jonathan"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "ELA14300B - 4",
+      "courseName": "AP English Literature S2",
+      "days": "B",
+      "markingPeriods": "Q3, Q4",
+      "periods": "2",
+      "room": "B115",
+      "status": "Active",
+      "teacher": "SHASKAN, ATTICUS"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "CATE36400A - 1",
+      "courseName": "Prac News Prod 2 S1",
+      "days": "A",
+      "markingPeriods": "Q1, Q2",
+      "periods": "3",
+      "room": "A123",
+      "status": "Active",
+      "teacher": "BAGWELL, CANDACE"
+    },
+    {
+      "building": "CTE",
+      "courseCode": "CATE27600A - 3",
+      "courseName": "Mobile App Programming S1@CTEC",
+      "days": "B",
+      "markingPeriods": "Q1, Q2",
+      "periods": "3",
+      "room": "XC148",
+      "status": "Active",
+      "teacher": "BUNN, BRYAN"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "CATE36400B - 1",
+      "courseName": "Prac News Prod 2 S2",
+      "days": "A",
+      "markingPeriods": "Q3, Q4",
+      "periods": "3",
+      "room": "A123",
+      "status": "Active",
+      "teacher": "BAGWELL, CANDACE"
+    },
+    {
+      "building": "CTE",
+      "courseCode": "CATE27600B - 3",
+      "courseName": "Mobile App Programming S2@CTEC",
+      "days": "B",
+      "markingPeriods": "Q3, Q4",
+      "periods": "3",
+      "room": "XC148",
+      "status": "Active",
+      "teacher": "BUNN, BRYAN"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "REL99013A - 1",
+      "courseName": "Rel 4A OR 4B S1",
+      "days": "A",
+      "markingPeriods": "Q1, Q2",
+      "periods": "4",
+      "room": "N/A",
+      "status": "Active",
+      "teacher": "Staff"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "MTH45310A - 4",
+      "courseName": "AP Statistics S1",
+      "days": "B",
+      "markingPeriods": "Q1, Q2",
+      "periods": "4",
+      "room": "C108",
+      "status": "Active",
+      "teacher": "Davenport, Aimee"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "REL99013B - 1",
+      "courseName": "Rel 4A OR 4B S2",
+      "days": "A",
+      "markingPeriods": "Q3, Q4",
+      "periods": "4",
+      "room": "N/A",
+      "status": "Active",
+      "teacher": "Staff"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "MTH45310B - 4",
+      "courseName": "AP Statistics S2",
+      "days": "B",
+      "markingPeriods": "Q3, Q4",
+      "periods": "4",
+      "room": "C108",
+      "status": "Active",
+      "teacher": "Davenport, Aimee"
+    },
+    {
+      "building": "Heritage High School",
+      "courseCode": "MSC15136M - 12",
+      "courseName": "12th Grade Advisory GP1",
+      "days": "A, B",
+      "markingPeriods": "Q1, Q2, Q3, Q4",
+      "periods": "ADV",
+      "room": "C218",
+      "status": "Active",
+      "teacher": "O'brien, TIMOTHY"
+    }
+  ]
+}
 currentClasses = {
     "currentClasses" : [
     {
