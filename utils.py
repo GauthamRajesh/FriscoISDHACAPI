@@ -67,7 +67,7 @@ def getPage(username, password, pageURL):
     )
 
     #Throw a 500 error if the login fails
-    if(pageDOM.url != "https://hac.friscoisd.org/HomeAccess/Classes/Schedule"):
+    if(pageDOM.url == "https://hac.friscoisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2FHomeAccess%2F"):
         return AppError(400, "HAC login failed")
 
     #Reroute to the final page

@@ -83,3 +83,5 @@ def sendSATDates():
     return {
         "dates" : getSATDates()
     }
+
+application.run()
