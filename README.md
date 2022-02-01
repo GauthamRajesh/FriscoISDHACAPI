@@ -14,15 +14,6 @@ If you are looking to build a Grade App, feel free to reach out us and be a part
 
 Base API URL: http://gradualgrades-env.eba-dkw3kc3t.us-east-2.elasticbeanstalk.com/
 
-
-Frisco ISD Real-time GPA Site:
-
-GitHub: https://github.com/SumitNalavade/FriscoISD_GPA_Site
-
-Demo: https://fisd-gpa-calc.herokuapp.com/
-
-
-
 Technologies Used:
 -
 - Python
