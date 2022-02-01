@@ -1,5 +1,5 @@
 
-# GradualGrades API
+# FRISCO ISD HAC API
 
 REST API to scrape student information from Frisco ISD's Home Access Center (HAC) using python requests and Beautiful Soup
 
