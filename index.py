@@ -26,7 +26,8 @@ def getInfo(username, password):
         registrationDOM = getPage(username, password, REGISTRATION_URL)
 
         parser = createBS4Parser(registrationDOM.text)
-        studentID = parser.find(id="plnMain_lblRegStudentID").text
+        #studentID = parser.find(id="plnMain_lblRegStudentID").text
+        studentID = getPage(username, password, STUDENTSCHEDULE_URL).find(id="plnMain_lblStudentIDValue").text
         studentName = parser.find(id="plnMain_lblRegStudentName").text
         studentBirthDate = parser.find(id="plnMain_lblBirthDate").text
         studentCounselor = parser.find(id="plnMain_lblCounselor").text
