@@ -279,7 +279,7 @@ currentClasses = {
       "assignments": [
         {
           "assignment": "Thesis Practice #1",
-          "category": "Minor Grades",
+          "category": "Non-graded",
           "dateAssigned": "",
           "dateDue": "01/13/2022",
           "score": "90.00",
@@ -312,7 +312,7 @@ currentClasses = {
         },
         {
           "assignment": "Delta Math Practice (Unit 6)",
-          "category": "Minor Grades",
+          "category": "Non-graded",
           "dateAssigned": "",
           "dateDue": "02/08/2022",
           "score": "",
@@ -360,7 +360,7 @@ currentClasses = {
         },
         {
           "assignment": "Delta Math Practice (Unit 5)",
-          "category": "Minor Grades",
+          "category": "Non-graded",
           "dateAssigned": "",
           "dateDue": "01/10/2022",
           "score": "85.00",
