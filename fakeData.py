@@ -445,7 +445,7 @@ currentClasses = {
           "category": "Major Grades",
           "dateAssigned": "",
           "dateDue": "02/23/2022",
-          "score": "",
+          "score": "98",
           "totalPoints": "100.00"
         },
         {
