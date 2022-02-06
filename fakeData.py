@@ -412,7 +412,7 @@ currentClasses = {
           "category": "Non-graded",
           "dateAssigned": "",
           "dateDue": "01/24/2022",
-          "score": "",
+          "score": "93",
           "totalPoints": "100.00"
         },
         {
