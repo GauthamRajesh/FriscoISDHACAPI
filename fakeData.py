@@ -323,7 +323,7 @@ currentClasses = {
           "category": "Minor Grades",
           "dateAssigned": "",
           "dateDue": "01/31/2022",
-          "score": "",
+          "score": "97",
           "totalPoints": "100.00"
         },
         {
