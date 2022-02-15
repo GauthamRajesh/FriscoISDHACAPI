@@ -197,7 +197,7 @@ currentClasses = {
       "Last Updated": "",
       "assignments": [],
       "credits": "1",
-      "grade": "",
+      "grade": "98",
       "name": "CATE27600B - 3    Mobile App Programming S2@CTEC",
       "weight": "6"
     },
@@ -315,7 +315,7 @@ currentClasses = {
           "category": "Non-graded",
           "dateAssigned": "",
           "dateDue": "02/08/2022",
-          "score": "",
+          "score": "100",
           "totalPoints": "100.00"
         },
         {
@@ -396,7 +396,7 @@ currentClasses = {
           "category": "Non-graded",
           "dateAssigned": "",
           "dateDue": "01/24/2022",
-          "score": "",
+          "score": "98",
           "totalPoints": "100.00"
         },
         {
@@ -485,7 +485,7 @@ currentClasses = {
           "category": "Major Grades",
           "dateAssigned": "",
           "dateDue": "01/21/2022",
-          "score": "",
+          "score": "98",
           "totalPoints": "100.00"
         },
         {
