@@ -433,7 +433,7 @@ currentClasses = {
       "Last Updated": "",
       "assignments": [],
       "credits": "1",
-      "grade": "",
+      "grade": "90",
       "name": "SCI43300B - 1    AP Environmental Science S2",
       "weight": "6"
     },
@@ -469,7 +469,7 @@ currentClasses = {
           "category": "Minor Grades",
           "dateAssigned": "",
           "dateDue": "02/11/2022",
-          "score": "100",
+          "score": "105",
           "totalPoints": "100.00"
         },
         {
